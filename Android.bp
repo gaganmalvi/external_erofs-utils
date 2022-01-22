@@ -76,13 +76,13 @@ cc_defaults {
         "external/e2fsprogs/lib/",
     ],
     generated_headers: ["erofs-utils-version.h"],
-    shared_libs: [
+    static_libs: [
+        "libbase",
         "libcutils",
         "libext2_uuid",
-        "libselinux",
-    ],
-    static_libs: [
+        "liblog",
         "liblz4",
+        "libselinux",
     ],
 }
 
@@ -103,10 +103,12 @@ cc_defaults {
     },
 }
 
-cc_binary_host {
+cc_binary {
     name: "mkfs.erofs",
 
     defaults: ["mkfs-erofs_defaults"],
+    host_supported: true,
+    recovery_available: true,
 }
 
 cc_binary_host {
@@ -115,12 +117,30 @@ cc_binary_host {
     defaults: ["mkfs-erofs_defaults"],
 }
 
-cc_binary_host {
+cc_binary {
     name: "dump.erofs",
     defaults: ["erofs-utils_defaults"],
+    host_supported: true,
+    recovery_available: true,
     srcs: [
         "lib/*.c",
         "dump/*.c",
+    ],
+    target: {
+        darwin: {
+            enabled: false,
+        },
+    },
+}
+
+cc_binary {
+    name: "fsck.erofs",
+    defaults: ["erofs-utils_defaults"],
+    host_supported: true,
+    recovery_available: true,
+    srcs: [
+        "lib/*.c",
+        "fsck/*.c",
     ],
     target: {
         darwin: {

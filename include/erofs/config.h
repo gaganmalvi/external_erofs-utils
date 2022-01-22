@@ -28,6 +28,11 @@ enum {
 };
 
 enum {
+	FORCE_INODE_BLOCK_MAP = 1,
+	FORCE_INODE_CHUNK_INDEXES,
+};
+
+enum {
 	TIMESTAMP_NONE,
 	TIMESTAMP_FIXED,
 	TIMESTAMP_CLAMPING,
@@ -51,15 +56,18 @@ struct erofs_configure {
 	/* related arguments for mkfs.erofs */
 	char *c_img_path;
 	char *c_src_path;
+	char *c_blobdev_path;
 	char *c_compress_hints_file;
 	char *c_compr_alg_master;
 	int c_compr_level_master;
-	int c_force_inodeversion;
+	char c_force_inodeversion;
+	char c_force_chunkformat;
 	/* < 0, xattr disabled and INT_MAX, always use inline xattrs */
 	int c_inline_xattr_tolerance;
 
 	u32 c_pclusterblks_max, c_pclusterblks_def;
 	u32 c_max_decompressed_extent_bytes;
+	u32 c_dict_size;
 	u64 c_unix_timestamp;
 	u32 c_uid, c_gid;
 #ifdef WITH_ANDROID
