@@ -86,8 +86,8 @@ cc_defaults {
     ],
 }
 
-cc_binary_host {
-    name: "mkfs.erofs",
+cc_defaults {
+    name: "mkfs-erofs_defaults",
 
     defaults: ["erofs-utils_defaults"],
 
@@ -96,6 +96,32 @@ cc_binary_host {
         "mkfs/*.c",
     ],
 
+    target: {
+        darwin: {
+            enabled: false,
+        },
+    },
+}
+
+cc_binary_host {
+    name: "mkfs.erofs",
+
+    defaults: ["mkfs-erofs_defaults"],
+}
+
+cc_binary_host {
+    name: "make_erofs",
+
+    defaults: ["mkfs-erofs_defaults"],
+}
+
+cc_binary_host {
+    name: "dump.erofs",
+    defaults: ["erofs-utils_defaults"],
+    srcs: [
+        "lib/*.c",
+        "dump/*.c",
+    ],
     target: {
         darwin: {
             enabled: false,
