@@ -772,7 +772,7 @@ int main(int argc, char **argv)
 
 	if (erofs_sb_has_sb_chksum() && erofs_check_sb_chksum()) {
 		erofs_err("failed to verify superblock checksum");
-		goto exit_dev_close;
+		goto exit_put_super;
 	}
 
 	err = erofsfsck_check_inode(sbi.root_nid, sbi.root_nid);
@@ -797,6 +797,8 @@ int main(int argc, char **argv)
 		}
 	}
 
+exit_put_super:
+	erofs_put_super();
 exit_dev_close:
 	dev_close();
 exit:
